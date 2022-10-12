@@ -29,7 +29,7 @@ jobs:
           ./gradlew generateChangelog
       - name: build project
         run: |
-          ./gradlew build
+          ./gradlew -x test build
       - name: trigger
         run: |
           curl -XPOST \
