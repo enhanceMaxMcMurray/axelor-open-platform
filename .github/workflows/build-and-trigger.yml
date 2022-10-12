@@ -17,6 +17,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Grant execute permission for gradlew
+        run: |
+          chmod +x open-suite-webapp/gradlew
+      - name: |
+          Check spotless format with gradle task
+        run: cd open-suite-webapp && ./gradlew spotlessCheck
+      - name: Check that CSV files use the correct CR/LF EOL char (\r\n)
+        run: |
+          cd open-suite-webapp && ./gradlew checkCsvEOL
+      - name: Check changelog generation with gradle task
+        run: |
+          cd open-suite-webapp && ./gradlew generateChangelog
       - name: build project
         run: |
           ./gradlew build
