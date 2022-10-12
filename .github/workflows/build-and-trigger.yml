@@ -24,9 +24,6 @@ jobs:
           Check spotless format with gradle task
         run: |
           ./gradlew spotlessCheck
-      - name: Check that CSV files use the correct CR/LF EOL char (\r\n)
-        run: |
-          ./gradlew checkCsvEOL
       - name: Check changelog generation with gradle task
         run: |
           ./gradlew generateChangelog
