@@ -1,0 +1,27 @@
+name: Build and Trigger
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+  workflow_dispatch:
+
+env:
+  NEXT_IN_CHAIN: "enhanceMaxMcMurray/axelor-docker"
+  NEXT_IN_CHAIN_WORKFLOWID: "docker-image.yml" 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: trigger
+        run: |
+          curl -XPOST \
+            -u "${{ secrets.PAT_USERNAME }}:${{ secrets.PAT_TOKEN }}" \
+            -H "Accept: application/vnd.github.everest-preview+json" \
+            -H "Content-Type: application/json" \
+            https://api.github.com/repos/${{ env.NEXT_IN_CHAIN }}/actions/workflows/${{ env.NEXT_IN_CHAIN_WORKFLOWID }}/dispatches \
+            --data '{"ref":"master"}'
